@@ -1,3 +1,8 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 1 optimization:
+# - [MEDIUM] Add concurrency group to "breakage.yml"
+# Estimated savings: ~2 min/run
+#
 # Ref: https://securitylab.github.com/research/github-actions-preventing-pwn-requests
 # and: https://github.com/JuliaSmoothOptimizers/NLPModels.jl/blob/main/.github/workflows/breakage.yml
 name: Breakage
@@ -8,6 +13,10 @@ on:
   pull_request:
   workflow_dispatch:
 
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   break:
     runs-on: ubuntu-latest
